@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>OAuth Sample Service</title>
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/0.1.3/js/msal.min.js"></script>
+  </head>
+  <body>
+    <h1>Sign in with Microsoft</h1>
+    <script>
+      var applicationConfig = {
+        clientID: '0bda86b1-3770-4ee5-99ba-368811bb9522',
+        graphScopes: [ "openid", "email", "profile" /* "user.read" */ /* "mail.send" */ ]
+      };
+      
+      var userAgentApplication = new Msal.UserAgentApplication(applicationConfig.clientID, null, authCallback, { });
+      
+      function authCallback(errorDesc, token, error, tokenType) {
+        console.log('authCallback');
+        if (token) {
+            console.log(tokenType);
+            console.log(token);
+        }
+        else {
+          console.log(error);
+          console.log(errorDesc);
+        }
+      }
+
+      function startLogin() {
+        userAgentApplication.loginPopup(applicationConfig.graphScopes).then(function (idToken) {
+          console.log('loginPopup Success');
+          console.log(idToken);
+          document.getElementById('status').innerHTML = 'Authenticated with Microsoft (Frontend, loginPopup)';
+        }, function (error) {
+          console.log(error);
+        });
+      }
+        
+//       function startLogin2() {
+//         userAgentApplication.acquireTokenSilent(applicationConfig.graphScopes).then(function (accessToken) {
+//           console.log('acquireTokenSilent Success');
+//           document.getElementById('status').innerHTML = 'Authenticated with Microsoft (Frontend, acquireTokenSilent)';
+//         }, function (error) {
+//           console.log(error);
+//         });
+//       }
+       
+//       function startLogin3() {
+//         userAgentApplication.acquireTokenPopup(applicationConfig.graphScopes).then(function (accessToken) {
+//           console.log('acquireTokenPopup Success');
+//           document.getElementById('status').innerHTML = 'Authenticated with Microsoft (Frontend, acquireTokenPopup)';
+//         }, function (error) {
+//           console.log(error);
+//         });
+//       }
+    </script>
+    <p><a href="#" onclick="startLogin();">Login</a></p>
+    <!-- <p><a href="#" onclick="startLogin2();">Login 2</a></p> -->
+    <!-- <p><a href="#" onclick="startLogin3();">Login 3</a></p> -->
+    <!-- <p><a href="#" onclick="checkLoginState();">Check Frontend</a></p> -->
+    <p><b>Status:</b> <span id="status">???</span></p>
+  </body>
+</html>
