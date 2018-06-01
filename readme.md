@@ -8,8 +8,8 @@ Build:
 Docker:
 
     $ mvn clean verify -P docker
-    $ docker run -d --rm --name my-oauth-sample -p 8080:8080 oauth-sample-service:latest
-    $ docker run -d --rm --name my-oauth-sample \
+    $ docker run -d --rm --name myoauth -p 8080:8080 oauth-sample-service:latest
+    $ docker run -d --rm --name myoauth \
         -p 443:8443 \
         -v /etc/letsencrypt:/etc/letsencrypt \
         -e APP_ENABLE_SSL=true \
@@ -19,5 +19,5 @@ Docker:
 
 Usage:
 
-    $ curl http://localhost:8080/
-    $ curl http://localhost:8080/health
+    $ curl http://localhost:8080/oauth-sample-service
+    $ curl http://localhost:8080/oauth-sample-service/rest/health

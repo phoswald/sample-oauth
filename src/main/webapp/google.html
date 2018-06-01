@@ -45,8 +45,8 @@
       function checkBackend() {
         console.log('checkBackend()');
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/check-google');
-        xhr.setRequestHeader('Authorization', 'Bearer ' + id_token);
+        xhr.open('GET', 'rest/google/check?token='+id_token);
+        //xhr.setRequestHeader('Authorization', 'Bearer ' + id_token);
         xhr.onload = function() {
           console.log('checkBackend(): Authenticated with Google (Backend):' + xhr.responseText);
           document.getElementById('status').innerHTML = 'Authenticated with Google (Backend): ' + xhr.responseText;
