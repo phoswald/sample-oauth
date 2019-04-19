@@ -1,4 +1,4 @@
-package com.github.phoswald.oauth.sample.service;
+package com.github.phoswald.sample.oauth.service;
 
 import java.time.LocalDateTime;
 

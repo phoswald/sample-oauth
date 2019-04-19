@@ -1,2 +1,2 @@
 #!/bin/bash
-java -jar payara-micro.jar target/oauth-sample-service.war
+java -jar payara-micro.jar target/sample-oauth-service.war
