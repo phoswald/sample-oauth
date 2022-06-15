@@ -1,6 +1,4 @@
-/target/
-/.classpath
-/.project
-/.settings/
-/payara-micro.jar
-/.*.md.html
+target/
+.classpath
+.project
+.settings/
