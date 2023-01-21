@@ -28,3 +28,8 @@ $ docker run -d --name mykeycloak --rm \
 
 - Open http://localhost:8180/ and login as user "admin" with password "admin"
 - Import the realm configuration file to create a new realm
+- Review settings in realm "Quarkus":
+  - "SSO Session Idle" and "SSO Session Max"
+  - "Client Session Idle" and "Client Session Max"
+  - "Access Token Lifespan"
+- When redirected from the application, login as user "alice" with password "alice"
