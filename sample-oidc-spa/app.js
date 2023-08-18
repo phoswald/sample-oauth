@@ -18,5 +18,11 @@ try {
 }
 
 document.querySelector("#show-token").addEventListener("click", function() { 
-    document.querySelector("#token").innerHTML = keycloak.token
+    document.querySelector("#token").innerHTML = 
+        "(access)token = " + keycloak.token + "\n" + 
+        "(access)tokenParsed = " + JSON.stringify(keycloak.tokenParsed) + "\n" + 
+        "idToken = " + keycloak.idToken + "\n" + 
+        "idTokenParsed = " + JSON.stringify(keycloak.idTokenParsed) + "\n" + 
+        "realmAccess = "  + JSON.stringify(keycloak.realmAccess) + "\n" + 
+        "resourceAccess = "  + JSON.stringify(keycloak.resourceAccess)
 });

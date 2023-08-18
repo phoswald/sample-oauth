@@ -6,21 +6,12 @@ Experiments with OIDC, featuring:
 - OIDC client in SPA
 - OIDC client in Quarkus
 
-## Build and Run Standalone
-
-~~~
-$ cd sample-oidc-frontend
-$ mvn clean verify
-$ java -jar target/quarkus-app/quarkus-run.jar
-~~~
-
-~~~
-$ mvn quarkus:dev
-~~~
-
 ## URLs
 
-- http://localhost:8080/
+- SPA: http://localhost:8080/
+- Frontend: http://localhost:8081/
+- Backend: http://localhost:8082/
+- Keycloak: http://localhost:8180/
 
 ## Keycloak
 
@@ -32,53 +23,50 @@ See:
 - https://www.keycloak.org/server/containers
 
 ~~~
-$ docker run -d --name mykeycloak --rm \
+$ docker run -d --name mykeycloak --restart=always \
   -p 8180:8080 \
   -e KEYCLOAK_ADMIN=admin \
   -e KEYCLOAK_ADMIN_PASSWORD=admin \
   quay.io/keycloak/keycloak:22.0.1 start-dev
 ~~~
 
-## Realm Configuration
+### Realm Configuration
 
 - Open http://localhost:8180/ and login as user "admin" with password "admin"
 - Create a new realm "sample" and select it.
 - Create a new user "philip":
   - Set username, email, first name, last name.
-  - After creation, select the "Credentials" tab and set his password with "Temporary" off.
+  - After creation, select the "Credentials" tab and set his password with "Temporary" to off.
 - Create a new user "guest":
   - Set username only.
-  - After creation, select the "Credentials" tab and set his password with "Temporary" off.
+  - After creation, select the "Credentials" tab and set his password with "Temporary" to off.
 - Create new groups "users", "admins" and "guests":
   - Dont set any additional properties.
   - Add users to groups using the "Members" tab of a group's details
     or using the "Groups" tab of a user's details.
 - Create a new client "sample-spa" of type "OpenID Connect":
-  - Set "Client authentication" off (public access).
+  - Set "Client authentication" to off (public access, i.a. no client secret).
   - Select the "Standard flow", "Direct access grants" and "Implicit flow".
   - Set "Root URL", "Home URL" and "Web origins" to "http://localhost:8080",
     and set "Valid redirect URIs" and "Valid post logout redirect URIs" to "http://localhost:8080/*"
+- Create a new client "sample-frontend" of type "OpenID Connect":
+  - Set "Client authentication" to on (non-public access, i.a. with client secret).
+  - Select the "Standard flow", "Direct access grants" and "Service account roles".
+  - Set "Root URL", "Home URL" and "Web origins" to "http://localhost:8081",
+    and set "Valid redirect URIs" and "Valid post logout redirect URIs" to "http://localhost:8081/*"
 
-## Realm Configuration (old)
-
-- Import the realm configuration file to create a new realm
-- Review settings in realm "Quarkus":
-  - "SSO Session Idle" and "SSO Session Max"
-  - "Client Session Idle" and "Client Session Max"
-  - "Access Token Lifespan"
-- When redirected from the application, login as user "alice" with password "alice"
-
-## SPA
+## sample-oidc-spa
 
 See:
 
 - https://www.keycloak.org/docs/latest/securing_apps/index.html#_javascript_adapter
 
 ~~~
+$ cd cd sample-oidc-spa/
 $ npm install keycloak-js
 $ curl -O 'http://localhost:8080/js/keycloak.js'
 
-$ docker run -d --name myspa --restart=always \
+$ docker run -d --name myspa --rm \
   -p 8080:80 \
   -v $(pwd):/usr/share/nginx/html:ro \
   nginx:alpine
@@ -89,3 +77,18 @@ TODO: call an endpoint to get data
 TODO: refresh token, add error handling
 
 TODO: parse the token, extract subject, username and roles (roles are not yet present)
+
+## sample-oidc-frontend
+
+### Build and Run Standalone
+
+~~~
+$ mvn clean install
+$ mvn quarkus:dev -f sample-oidc-frontend
+~~~
+
+~~~
+$ mvn clean verify
+$ cd sample-oidc-frontend
+$ java -jar target/quarkus-app/quarkus-run.jar
+~~~
