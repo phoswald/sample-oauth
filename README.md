@@ -30,6 +30,31 @@ $ docker run -d --name mykeycloak --restart=always \
   quay.io/keycloak/keycloak:22.0.1 start-dev
 ~~~
 
+### H2 Datenbank
+
+Die H2-Datenbank wird unter `opt/keycloak/data/h2/` abgelegt.
+
+~~~
+$ docker cp mykeycloak:/opt/keycloak/data/h2 keycloak/h2/
+~~~
+
+### Themes
+
+Links:
+
+- https://www.baeldung.com/spring-keycloak-custom-themes
+- https://www.baeldung.com/keycloak-custom-login-page
+
+Die Themes sind in `/opt/keycloak/lib/lib/main/org.keycloak.keycloak-themes-*.jar` enthalten.
+Es werden FreeMarker Template Files (`*.ftl`) verwendet.
+
+Zusätzliche Themes können unter `/opt/keycloak/themes/` abgelegt werden.
+Bei Verwendung von `start-dev` werden diese nicht gecached.
+
+~~~
+$ docker cp mykeycloak:/opt/keycloak/lib/lib/main/org.keycloak.keycloak-themes-22.0.1.jar keycloak/
+~~~
+
 ### Realm Configuration
 
 - Open http://localhost:8180/ and login as user "admin" with password "admin"
